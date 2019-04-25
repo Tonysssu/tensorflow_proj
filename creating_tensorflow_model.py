@@ -13,7 +13,6 @@ KEY_COLUMN = "key"
 DEFAULTS = [[0.0], ["null"], [0.0], ["null"], [0.0], ["nokey"]]
 TRAIN_STEPS = 1000
 
-##TASK 2
 # Create an input function reading a file using the Dataset API
 # Then provide the results to the Estimator API
 def read_dataset(filename_pattern, mode, batch_size=512):
@@ -56,7 +55,6 @@ def read_dataset(filename_pattern, mode, batch_size=512):
     return _input_fn
 
 
-##TASK 3
 # Define feature columns
 is_male_cols = tf.feature_column.categorical_column_with_vocabulary_list(
     "is_male", ["True", "False", "null"]
@@ -72,7 +70,6 @@ gestation_weeks_cols = tf.feature_column.numeric_column("gestation_weeks")
 
 deep_cols = [mother_age_cols, gestation_weeks_cols]
 
-##TASK 4
 # Create serving input function to be able to serve predictions later using provided inputs
 def serving_input_fn():
     feature_placeholders = {
@@ -87,7 +84,6 @@ def serving_input_fn():
     return tf.estimator.export.ServingInputReceiver(features, feature_placeholders)
 
 
-## TASK 5
 # Create estimator to train and evaluate
 def train_and_evaluate(output_dir):
     EVAL_INTERVAL = 300
@@ -121,13 +117,12 @@ def train_and_evaluate(output_dir):
     tf.estimator.train_and_evaluate(estimator, train_spec, eval_spec)
 
 
-## TASK 6
 # Run the model
 shutil.rmtree("babyweight_trained", ignore_errors=True)  # start fresh each time
 tf.summary.FileWriterCache.clear()  # ensure filewriter cache is clear for TensorBoard events file
 train_and_evaluate("babyweight_trained")
 
-## TASK 7
+
 from google.datalab.ml import TensorBoard
 
 TensorBoard().start("./babyweight_trained")
